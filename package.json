@@ -7,6 +7,13 @@
   "author": "eatmyvenom",
   "license": "MIT",
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "babel-loader": "^8.2.2",
+    "prettier": "^1.18.2",
+    "webpack": "^5.52.1"
+  },
+  "dependencies": {
+    "hyarcade-requests": "github:eatmyvenom/hyarcade-requests"
   }
 }
