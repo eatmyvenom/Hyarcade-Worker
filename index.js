@@ -28,13 +28,20 @@ async function handleRequest (request) {
       "content-type": "application/json;charset=UTF-8",
     },
   };
+  
+  let acc;
 
-  for(const uuid of uuids) {
-    const acc = await fetch(`https://api.hypixel.net/player?key=${key}&uuid=${uuid.trim()}`, init);
-    accs[uuid.trim()] = (await acc.json());
+  for(let i = 0;i < uuids.length;i += 1) {
+    const uuid = uuids[i];
+    acc = await fetch(`https://api.hypixel.net/player?key=${key}&uuid=${uuid.trim()}`, init);
+    try {
+      accs[uuid.trim()] = JSON.parse(await acc.text());
+    } catch (e) {
+      i -= 1;
+    }
   }
 
-  return new Response(JSON.stringify(accs), {
+  return new Response(JSON.stringify({ data: accs, key: { limit: acc.headers.get("ratelimit-limit"), remaining: acc.headers.get("ratelimit-remaining"), reset: acc.headers.get("ratelimit-reset") } }), {
     headers: { "content-type": "application/json" },
   });
 }
