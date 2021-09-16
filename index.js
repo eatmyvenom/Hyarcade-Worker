@@ -21,7 +21,7 @@ async function handleRequest (request) {
     return new Response(JSON.stringify({ error: "INVALID-AUTH", sent: pass }));
   }
 
-  const accs = [];
+  const accs = {};
 
   const init = {
     headers: {
@@ -30,8 +30,8 @@ async function handleRequest (request) {
   };
 
   for(const uuid of uuids) {
-    const acc = await fetch(`https://api.hypixel.net/player?key=${key}&uuid=${uuid}`, init);
-    accs.push(await acc.json());
+    const acc = await fetch(`https://api.hypixel.net/player?key=${key}&uuid=${uuid.trim()}`, init);
+    accs[uuid.trim()] = (await acc.json());
   }
 
   return new Response(JSON.stringify(accs), {
