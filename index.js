@@ -34,9 +34,13 @@ async function handleRequest (request) {
   for(let i = 0;i < uuids.length;i += 1) {
     const uuid = uuids[i];
     acc = await fetch(`https://api.hypixel.net/player?key=${key}&uuid=${uuid.trim()}`, init);
+    const text = await acc.text();
+
     try {
-      accs[uuid.trim()] = JSON.parse(await acc.text());
+      accs[uuid.trim()] = JSON.parse(text);
     } catch (e) {
+      console.log(text);
+      console.log(acc);
       i -= 1;
     }
   }
