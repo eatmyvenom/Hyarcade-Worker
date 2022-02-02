@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-abusive-eslint-disable */
 /* eslint-disable */
 addEventListener("fetch", (event) => {
   event.respondWith(handleRequest(event.request));
@@ -10,14 +11,12 @@ addEventListener("fetch", (event) => {
  * @returns {Response}
  */
 async function handleRequest (request) {
-  // eslint-disable-next-line no-undef
   const realPass = await CONFIG.get("pass");
   const uuids = request.headers.get("accs").split(",");
   const key = request.headers.get("apikey");
   const url = new URL(request.url);
   const pass = url.searchParams.get("pass");
-  
-  // eslint-disable-next-line no-undef
+
   if(pass != realPass) {
     return new Response(JSON.stringify({ error: "INVALID-AUTH", sent: pass }));
   }
